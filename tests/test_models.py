@@ -16,11 +16,11 @@
 Test cases for Product Model
 
 Test cases can be run with:
-    nosetests
+    pytest
     coverage report -m
 
 While debugging just these tests it's convenient to use this:
-    nosetests --stop tests/test_models.py:TestProductModel
+    pytest -x tests/test_models.py
 
 """
 import os

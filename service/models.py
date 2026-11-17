@@ -165,7 +165,9 @@ class Product(db.Model):
         """
         logger.info("Initializing database")
         # This is where we initialize SQLAlchemy from the Flask app
-        db.init_app(app)
+        # Flask-SQLAlchemy >= 3.1 raises if the extension is registered twice
+        if "sqlalchemy" not in app.extensions:
+            db.init_app(app)
         app.app_context().push()
         db.create_all()  # make our sqlalchemy tables
 
@@ -187,7 +189,7 @@ class Product(db.Model):
 
         """
         logger.info("Processing lookup for id %s ...", product_id)
-        return cls.query.get(product_id)
+        return db.session.get(cls, product_id)
 
     @classmethod
     def find_by_name(cls, name: str) -> list:
